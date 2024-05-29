@@ -7,7 +7,6 @@ const router = require("./src/routes/helloRouter");
 app.use(cors({ origin: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("./src"));
 app.get("/", (req, res) => {
   res.send("Hello World");
 });
