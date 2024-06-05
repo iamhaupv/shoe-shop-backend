@@ -1,14 +1,46 @@
+const { User } = require("../models/index");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 // register
-const register = async () => {
+const register = async (phoneNumber, password) => {
   try {
+    const updateAt = null;
+    const userExist = await User.findOne({ phoneNumber });
+    if (userExist) {
+      throw new Error("User is exist");
+    }
+    const hashPassword = await bcrypt.hash(
+      password,
+      parseInt(process.env.SALT_ROUND)
+    );
+    const newUser = await User.create({
+      phoneNumber,
+      password: hashPassword,
+      updateAt,
+    });
+    return newUser;
   } catch (error) {
     console.log(error);
     throw new Error(error);
   }
 };
 // login
-const login = async () => {
+const login = async (phoneNumber, password) => {
   try {
+    const userLogin = await User.findOne({ phoneNumber });
+    if (userLogin) {
+      const isMath = await bcrypt.compare(password, userLogin.password);
+      if (isMath) {
+        const token = jwt.sign({ data: userLogin }, process.env.JWT_SECRET, {
+          expiresIn: "10days",
+        });
+        return { ...userLogin.toObject(), token: token };
+      } else {
+        throw new Error("Wrong username or password");
+      }
+    } else {
+      throw new Error("Wrong username or password");
+    }
   } catch (error) {
     console.log(error);
     throw new Error(error);

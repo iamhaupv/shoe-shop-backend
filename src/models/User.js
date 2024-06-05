@@ -22,6 +22,10 @@ const User = mongoose.model(
       type: [String],
       default: [], // Không có quyền hạn mặc định
     },
+    createAt: {
+      type: Date,
+      default: Date.now(),
+    },
     updateAt: {
       type: Date,
       default: Date.now(),

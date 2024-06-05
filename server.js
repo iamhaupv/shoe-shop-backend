@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 // router
-app.use("users", UserRouter)
+app.use("/users", UserRouter)
 // listen
 app.listen(port, async () => {
   await connect_mongodb();
