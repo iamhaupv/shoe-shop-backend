@@ -4,7 +4,7 @@ const Product = mongoose.model(
   "Product",
   new mongoose.Schema({
     id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.ObjectId,
     },
     name: {
       type: String,

@@ -4,7 +4,7 @@ const User = mongoose.model(
   "User",
   new mongoose.Schema({
     id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.ObjectId,
     },
     password: {
       type: String,
