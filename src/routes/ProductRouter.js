@@ -9,4 +9,6 @@ router.post("/delete-product-by-id", ProductController.deleteProductById);
 router.post("/update-product", ProductController.updateProduct);
 // find product by id
 router.post("/find-product-by-id", ProductController.findProductById)
+// find all product
+router.post("/find-all-product", ProductController.findAllProduct)
 module.exports = router;

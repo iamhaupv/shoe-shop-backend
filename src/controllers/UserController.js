@@ -23,7 +23,7 @@ const login = async (req, res) => {
       message: "Login successfully!",
       data: userLogin,
     });
-    console.log("Login successfully!")
+    console.log("Login successfully!");
   } catch (error) {
     res.status(500).json({
       message: "Wrong username or password",

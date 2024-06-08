@@ -64,9 +64,23 @@ const findProductById = async (req, res) => {
     });
   }
 };
+// find all product
+const findAllProduct = async (req, res) => {
+  try {
+    const products = await ProductRepository.findAllProduct();
+    res.status(200).json({
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "null!",
+    });
+  }
+};
 module.exports = {
   addProduct,
   deleteProductById,
   updateProduct,
   findProductById,
+  findAllProduct,
 };

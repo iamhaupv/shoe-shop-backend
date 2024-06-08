@@ -34,9 +34,14 @@ const findProductById = async (_id) => {
   if (product) return product;
   return null;
 };
+// find all product
+const findAllProduct = async () => {
+  return await Product.find({});
+};
 module.exports = {
   addProduct,
   deleteProductById,
   updateProduct,
-  findProductById
+  findProductById,
+  findAllProduct
 };
