@@ -16,8 +16,8 @@ const addProduct = async (req, res) => {
 // delete product by id
 const deleteProductById = async (req, res) => {
   try {
-    const id = req.body;
-    const product = await ProductRepository.deleteProductById(id);
+    const _id = req.params;
+    const product = await ProductRepository.deleteProductById(_id);
     res.status(200).json({
       message: "Delete product successfully!",
       data: product,

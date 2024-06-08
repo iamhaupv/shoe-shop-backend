@@ -4,7 +4,7 @@ const { ProductController } = require("../controllers/index");
 // add product
 router.post("/add-product", ProductController.addProduct);
 // delete product by id
-router.post("/delete-product-by-id", ProductController.deleteProductById);
+router.delete("/delete-product-by-id/:_id", ProductController.deleteProductById);
 // update product
 router.patch(`/update-product/:_id`, ProductController.updateProduct);
 // find product by id
