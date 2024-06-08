@@ -26,7 +26,18 @@ const deleteProductById = async (_id) => {
 };
 // update product by _id
 const updateProduct = async (_id, productNew) => {
-  return await Product.updateOne({ _id }, productNew);
+  try {
+    const productOld = await Product.findOne({_id})
+    if(!productOld){
+      throw new Error("Not found product!")
+    }
+    productOld.name = productNew.name
+    productOld.quantity = productNew.quantity
+    const product = await Product.updateOne({ _id }, productOld, { new: true });
+    return product;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 };
 // find product by _id
 const findProductById = async (_id) => {
@@ -43,5 +54,5 @@ module.exports = {
   deleteProductById,
   updateProduct,
   findProductById,
-  findAllProduct
+  findAllProduct,
 };

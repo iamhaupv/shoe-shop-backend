@@ -6,9 +6,9 @@ router.post("/add-product", ProductController.addProduct);
 // delete product by id
 router.post("/delete-product-by-id", ProductController.deleteProductById);
 // update product
-router.post("/update-product", ProductController.updateProduct);
+router.patch(`/update-product/:_id`, ProductController.updateProduct);
 // find product by id
-router.post("/find-product-by-id", ProductController.findProductById)
+router.post("/find-product-by-id", ProductController.findProductById);
 // find all product
-router.post("/find-all-product", ProductController.findAllProduct)
+router.post("/find-all-product", ProductController.findAllProduct);
 module.exports = router;

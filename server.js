@@ -6,11 +6,11 @@ const cors = require("cors");
 const connect_mongodb = require("./src/database/mongodb");
 const { UserRouter, ProductRouter } = require("./src/routes/index");
 const check_token = require("./src/authentication/auth");
-// check token
-app.use(check_token)
 // config
 app.use(cors({ origin: true }));
-//
+// check token
+app.use(check_token)
+// 
 app.use(express.urlencoded({ extended: true }));
 //
 app.use(express.json());

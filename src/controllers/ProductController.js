@@ -31,12 +31,23 @@ const deleteProductById = async (req, res) => {
 // update product by _id
 const updateProduct = async (req, res) => {
   try {
-    const { _id, name, quantity } = req.body;
+    const { _id } = req.params;
+    const { name, quantity } = req.body;
+    if (!_id || !name || !quantity) {
+      return res.status(400).json({
+        message: "Missing required fields!",
+      });
+    }
     const productNew = {
       name,
       quantity,
     };
     const product = await ProductRepository.updateProduct(_id, productNew);
+    if (product.nModified === 0) {
+      return res.status(404).json({
+        message: "Product not found or data is the same!",
+      });
+    }
     res.status(200).json({
       message: "Update product successfully!",
       data: product,
@@ -44,6 +55,7 @@ const updateProduct = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Cannot update product!",
+      error: error.message,
     });
   }
 };
