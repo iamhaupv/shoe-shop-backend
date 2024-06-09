@@ -4,14 +4,25 @@ const Cart = mongoose.model(
   "Cart",
   new mongoose.Schema({
     id: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.ObjectId,
+    },
+    user: {
+      type: mongoose.ObjectId,
+      ref: "User",
+      required: true,
     },
     products: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
-      }
-    ]
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+        quantity: {
+          type: Number,
+          default: 1,
+        },
+      },
+    ],
   })
 );
 

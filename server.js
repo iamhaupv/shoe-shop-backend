@@ -4,13 +4,18 @@ require("dotenv").config();
 const port = process.env.PORT || 2002;
 const cors = require("cors");
 const connect_mongodb = require("./src/database/mongodb");
-const { UserRouter, ProductRouter, AdminRouter } = require("./src/routes/index");
+const {
+  UserRouter,
+  ProductRouter,
+  AdminRouter,
+  CartRouter,
+} = require("./src/routes/index");
 const check_token = require("./src/authentication/auth");
 // config
 app.use(cors({ origin: true }));
 // check token
-app.use(check_token)
-// 
+app.use(check_token);
+//
 app.use(express.urlencoded({ extended: true }));
 //
 app.use(express.json());
@@ -25,7 +30,9 @@ app.use("/users", UserRouter);
 // router products
 app.use("/products", ProductRouter);
 //  router admin
-app.use("/wp-admin", AdminRouter)
+app.use("/wp-admin", AdminRouter);
+// router cart
+app.use("/carts", CartRouter);
 // listen
 app.listen(port, async () => {
   await connect_mongodb();

@@ -30,6 +30,10 @@ const User = mongoose.model(
       type: Date,
       default: Date.now(),
     },
+    cart: {
+      type: mongoose.ObjectId,
+      ref: "Cart",
+    },
   })
 );
 
