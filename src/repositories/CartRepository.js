@@ -1,4 +1,5 @@
 const { Cart, User } = require("../models/index");
+// add product to cart
 const addProductToCart = async (phoneNumber, productId) => {
   try {
     // Tìm người dùng bằng phoneNumber và populate giỏ hàng của họ
@@ -44,6 +45,19 @@ const addProductToCart = async (phoneNumber, productId) => {
     throw error;
   }
 };
+// find cart by id
+const findCartByIdUser = async (cartId) => {
+  try {
+    const cart = await User.findOne({ cartId });
+    if (!cart) {
+      throw new Error("Not found!");
+    }
+    return cart;
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   addProductToCart,
+  findCartByIdUser,
 };
