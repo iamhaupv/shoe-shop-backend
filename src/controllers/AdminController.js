@@ -3,7 +3,7 @@ const { AdminRepository } = require("../repositories/index");
 const registerAdmin = async (req, res) => {
   try {
     const { phoneNumber, password } = req.body;
-    const user = await AdminRepository.register(phoneNumber, password);
+    const user = await AdminRepository.registerAdmin(phoneNumber, password);
     res.status(200).json({
       message: "Register successfully!",
       data: user,
@@ -18,7 +18,7 @@ const registerAdmin = async (req, res) => {
 const loginAdmin = async (req, res) => {
   try {
     const { phoneNumber, password } = req.body;
-    const userLogin = await AdminRepository.login(phoneNumber, password);
+    const userLogin = await AdminRepository.loginAdmin(phoneNumber, password);
     res.status(200).json({
       message: "Login successfully!",
       data: userLogin,

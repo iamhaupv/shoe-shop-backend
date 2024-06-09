@@ -1,4 +1,6 @@
 const { User } = require("../models/index");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 // register admin
 const registerAdmin = async (phoneNumber, password) => {
   try {
