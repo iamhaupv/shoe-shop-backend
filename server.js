@@ -4,7 +4,7 @@ require("dotenv").config();
 const port = process.env.PORT || 2002;
 const cors = require("cors");
 const connect_mongodb = require("./src/database/mongodb");
-const { UserRouter, ProductRouter } = require("./src/routes/index");
+const { UserRouter, ProductRouter, AdminRouter } = require("./src/routes/index");
 const check_token = require("./src/authentication/auth");
 // config
 app.use(cors({ origin: true }));
@@ -24,6 +24,8 @@ app.get("/", (req, res) => {
 app.use("/users", UserRouter);
 // router products
 app.use("/products", ProductRouter);
+//  router admin
+app.use("/wp-admin", AdminRouter)
 // listen
 app.listen(port, async () => {
   await connect_mongodb();
