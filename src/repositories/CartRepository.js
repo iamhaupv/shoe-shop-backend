@@ -57,7 +57,19 @@ const findCartById = async (_id) => {
     console.log(error);
   }
 };
+//  remove product from cart
+const removeProductFromCart = async (phoneNumber) => {
+  try {
+    const user = await User.findOne({phoneNumber}).populate("cart")
+    if(!user){
+      throw new Error("User not found!")
+    }
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 module.exports = {
   addProductToCart,
   findCartById,
+  removeProductFromCart,
 };

@@ -17,6 +17,9 @@ const Cart = mongoose.model(
           type: mongoose.Schema.Types.ObjectId,
           ref: "Product",
         },
+        name: {
+          type: String,
+        },
         quantity: {
           type: Number,
           default: 1,
