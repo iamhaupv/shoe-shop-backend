@@ -13,11 +13,18 @@ const register = async (phoneNumber, password) => {
       password,
       parseInt(process.env.SALT_ROUND)
     );
+
     const newUser = await User.create({
       phoneNumber,
       password: hashPassword,
       updateAt,
     });
+    const cart = await Cart.create({
+      user: newUser._id,
+      products: [],
+    });
+    newUser.cart = cart._id;
+    await newUser.save();
     return newUser;
   } catch (error) {
     console.log(error);
