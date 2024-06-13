@@ -18,7 +18,7 @@ const addProductToCart = async (req, res) => {
 // find cart by id
 const findCartById = async (req, res) => {
   try {
-    const { cartId } = req.body
+    const { cartId } = req.body;
     const cart = await CartRepository.findCartById(cartId);
     res.status(200).json({
       message: "Successfully!",
@@ -30,7 +30,26 @@ const findCartById = async (req, res) => {
     });
   }
 };
+// remove product from cart
+const removeProductFromCart = async (req, res) => {
+  try {
+    const { phoneNumber, productId } = req.body;
+    const cart = await CartRepository.removeProductFromCart(
+      phoneNumber,
+      productId
+    );
+    res.status(200).json({
+      message: "Remove product successfully!",
+      data: cart,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Cannot remove product!",
+    });
+  }
+};
 module.exports = {
   addProductToCart,
   findCartById,
+  removeProductFromCart,
 };

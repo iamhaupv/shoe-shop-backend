@@ -58,16 +58,49 @@ const findCartById = async (_id) => {
   }
 };
 //  remove product from cart
-const removeProductFromCart = async (phoneNumber) => {
+const removeProductFromCart = async (phoneNumber, productId) => {
   try {
-    const user = await User.findOne({phoneNumber}).populate("cart")
-    if(!user){
-      throw new Error("User not found!")
+    // Tìm người dùng dựa trên số điện thoại và populate giỏ hàng
+    const user = await User.findOne({ phoneNumber }).populate("cart");
+    if (!user) {
+      throw new Error("User not found!");
     }
+
+    // Tìm giỏ hàng của người dùng
+    const cart = user.cart;
+    if (!cart) {
+      throw new Error("Cart not found!");
+    }
+
+    // Tìm sản phẩm trong giỏ hàng
+    const productIndex = cart.products.findIndex(
+      (product) => product.product.toString() === productId
+    );
+    if (productIndex === -1) {
+      throw new Error("Product not found in cart!");
+    }
+
+    // Kiểm tra số lượng của sản phẩm
+    if (cart.products[productIndex].quantity === 1) {
+      // Nếu số lượng là 1, xóa sản phẩm khỏi giỏ hàng
+      cart.products.splice(productIndex, 1);
+    } else {
+      // Nếu số lượng lớn hơn 1, giảm số lượng đi 1
+      cart.products[productIndex].quantity -= 1;
+    }
+
+    // Lưu thay đổi vào cơ sở dữ liệu
+    await cart.save();
+
+    return {
+      message: "Product removed or quantity decreased from cart successfully",
+      cart,
+    };
   } catch (error) {
-    throw new Error(error);
+    throw new Error(error.message);
   }
 };
+
 module.exports = {
   addProductToCart,
   findCartById,
