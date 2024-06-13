@@ -19,7 +19,7 @@ const addProductToCart = async (req, res) => {
 const findCartById = async (req, res) => {
   try {
     const { cartId } = req.body
-    const cart = await CartRepository.findCartByIdUser(cartId);
+    const cart = await CartRepository.findCartById(cartId);
     res.status(200).json({
       message: "Successfully!",
       data: cart,

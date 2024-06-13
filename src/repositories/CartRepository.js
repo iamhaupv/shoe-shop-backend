@@ -46,9 +46,9 @@ const addProductToCart = async (phoneNumber, productId) => {
   }
 };
 // find cart by id
-const findCartByIdUser = async (cartId) => {
+const findCartById = async (_id) => {
   try {
-    const cart = await User.findOne({ cartId });
+    const cart = await Cart.findOne({ _id });
     if (!cart) {
       throw new Error("Not found!");
     }
@@ -59,5 +59,5 @@ const findCartByIdUser = async (cartId) => {
 };
 module.exports = {
   addProductToCart,
-  findCartByIdUser,
+  findCartById,
 };
