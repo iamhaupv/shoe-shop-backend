@@ -9,6 +9,7 @@ const {
   ProductRouter,
   AdminRouter,
   CartRouter,
+  CategoryRouter,
 } = require("./src/routes/index");
 const check_token = require("./src/authentication/auth");
 // config
@@ -33,6 +34,8 @@ app.use("/products", ProductRouter);
 app.use("/wp-admin", AdminRouter);
 // router cart
 app.use("/carts", CartRouter);
+// router category
+app.use("/categories", CategoryRouter)
 // listen
 app.listen(port, async () => {
   await connect_mongodb();
