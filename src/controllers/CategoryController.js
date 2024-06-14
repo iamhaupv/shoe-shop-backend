@@ -13,6 +13,21 @@ const createCategory = async (req, res) => {
     });
   }
 };
+// find all categories
+const findAllCategories = async (req, res) => {
+  try {
+    const categories = await CategoryRepository.findAllCategories();
+    res.status(200).json({
+      message: "Successfully!",
+      data: categories,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error,
+    });
+  }
+};
 module.exports = {
   createCategory,
+  findAllCategories,
 };

@@ -10,14 +10,26 @@ const createCategory = async (name, description) => {
     const category = await Category.create({
       name,
       description,
-      updatedAt
+      updatedAt,
     });
     return category;
   } catch (error) {
     throw new Error(error);
   }
 };
-
+// find all category
+const findAllCategories = async () => {
+  try {
+    const categories = await Category.find({});
+    if(!categories || categories.length === 0){
+      throw new Error("NULL!")
+    }
+    return categories;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 module.exports = {
   createCategory,
+  findAllCategories
 };
