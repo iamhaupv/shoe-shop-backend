@@ -1,9 +1,13 @@
 const { ProductRepository } = require("../repositories/index");
 const addProduct = async (req, res) => {
   try {
-    const { name, quantity } = req.body;
-    const product = await ProductRepository.addProduct(name, quantity);
-    res.status(200).json({
+    const { name, quantity, category } = req.body;
+    const product = await ProductRepository.addProduct(
+      name,
+      quantity,
+      category
+    );
+    res.status(201).json({
       message: "Add product successfully!",
       data: product,
     });
@@ -89,10 +93,28 @@ const findAllProduct = async (req, res) => {
     });
   }
 };
+// find all product by category
+const findAllProuctByCategory = async (req, res) => {
+  try {
+    const { categoryId } = req.body;
+    const products = await ProductRepository.findAllProuctByCategory(
+      categoryId
+    );
+    res.status(200).json({
+      message: "Successfully!",
+      data: products,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Null!",
+    });
+  }
+};
 module.exports = {
   addProduct,
   deleteProductById,
   updateProduct,
   findProductById,
   findAllProduct,
+  findAllProuctByCategory,
 };

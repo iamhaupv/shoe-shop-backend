@@ -28,4 +28,10 @@ router.post(
   authMiddleware,
   ProductController.findAllProduct
 );
+// find product by category
+router.post(
+  "/find-product-by-category",
+  authMiddleware,
+  ProductController.findAllProuctByCategory
+);
 module.exports = router;
