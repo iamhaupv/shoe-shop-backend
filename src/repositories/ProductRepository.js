@@ -52,8 +52,13 @@ const updateProduct = async (_id, productNew) => {
     }
     productOld.name = productNew.name;
     productOld.quantity = productNew.quantity;
-    const product = await Product.updateOne({ _id }, productOld, { new: true });
-    return product;
+    productOld.category = productNew.Category;
+    productOld.price = productNew.price;
+    productOld.description = productNew.description;
+    productOld.color = productNew.color;
+    productOld.material = productNew.material;
+    productOld.design = productNew.design;
+    return productOld.save();
   } catch (error) {
     throw new Error(error.message);
   }

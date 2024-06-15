@@ -1,4 +1,5 @@
 const { ProductRepository } = require("../repositories/index");
+// create product
 const addProduct = async (req, res) => {
   try {
     const {
@@ -50,22 +51,27 @@ const deleteProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const { _id } = req.params;
-    const { name, quantity } = req.body;
-    if (!_id || !name || !quantity) {
-      return res.status(400).json({
-        message: "Missing required fields!",
-      });
-    }
+    const {
+      name,
+      quantity,
+      category,
+      price,
+      description,
+      color,
+      material,
+      design,
+    } = req.body;
     const productNew = {
       name,
       quantity,
+      category,
+      price,
+      description,
+      color,
+      material,
+      design,
     };
     const product = await ProductRepository.updateProduct(_id, productNew);
-    if (product.nModified === 0) {
-      return res.status(404).json({
-        message: "Product not found or data is the same!",
-      });
-    }
     res.status(200).json({
       message: "Update product successfully!",
       data: product,
