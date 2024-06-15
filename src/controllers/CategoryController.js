@@ -1,3 +1,4 @@
+const { Category } = require("../models");
 const { CategoryRepository } = require("../repositories/index");
 const createCategory = async (req, res) => {
   try {
@@ -44,7 +45,7 @@ const deleteCategoryById = async (req, res) => {
 // update category
 const updateCategory = async (req, res) => {
   try {
-    const {id} = req.params;
+    const { id } = req.params;
     const { name, description } = req.body;
     const categoryNew = {
       name,
@@ -61,9 +62,25 @@ const updateCategory = async (req, res) => {
     });
   }
 };
+// find category by id
+const findCategoryById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const category = await CategoryRepository.findCategoryById(id);
+    res.status(200).json({
+      message: "Successfully!",
+      data: category,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Not found category by id",
+    });
+  }
+};
 module.exports = {
   createCategory,
   findAllCategories,
   deleteCategoryById,
   updateCategory,
+  findCategoryById,
 };

@@ -26,4 +26,10 @@ router.patch(
   authMiddleware,
   CategoryController.updateCategory
 );
+// find category by id
+router.get(
+  "/find-category-by-id/:id",
+  authMiddleware,
+  CategoryController.findCategoryById
+);
 module.exports = router;

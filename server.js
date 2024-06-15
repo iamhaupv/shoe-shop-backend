@@ -27,15 +27,15 @@ app.get("/", (req, res) => {
   res.send("Hello World");
 });
 // router users
-app.use("/users", UserRouter);
+app.use("/api/v1/users", UserRouter);
 // router products
-app.use("/products", ProductRouter);
+app.use("/api/v1/products", ProductRouter);
 //  router admin
-app.use("/wp-admin", AdminRouter);
+app.use("/api/v1/wp-admin", AdminRouter);
 // router cart
-app.use("/carts", CartRouter);
+app.use("/api/v1/carts", CartRouter);
 // router category
-app.use("/categories", CategoryRouter)
+app.use("/api/v1/categories", CategoryRouter)
 // listen
 app.listen(port, async () => {
   await connect_mongodb();

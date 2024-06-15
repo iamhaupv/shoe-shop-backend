@@ -56,9 +56,22 @@ const updateCategory = async (categoryId, categoryNew) => {
     throw new Error(error);
   }
 };
+// find category by id
+const findCategoryById = async (id) => {
+  try {
+    const category = await Category.findOne({ _id: id });
+    if (!category) {
+      throw new Error("Not found category by id!");
+    }
+    return category;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 module.exports = {
   createCategory,
   findAllCategories,
   deleteCategoryById,
   updateCategory,
+  findCategoryById,
 };
