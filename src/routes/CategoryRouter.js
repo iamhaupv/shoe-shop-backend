@@ -14,4 +14,16 @@ router.post(
   authMiddleware,
   CategoryController.findAllCategories
 );
+// delete category by id
+router.delete(
+  "/delete-category-by-id/:id",
+  authMiddleware,
+  CategoryController.deleteCategoryById
+);
+// update category
+router.patch(
+  "/update-category/:id",
+  authMiddleware,
+  CategoryController.updateCategory
+);
 module.exports = router;

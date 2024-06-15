@@ -27,7 +27,43 @@ const findAllCategories = async (req, res) => {
     });
   }
 };
+// delete category by id
+const deleteCategoryById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await CategoryRepository.deleteCategoryById(id);
+    res.status(200).json({
+      message: "Delete successfully!",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Cannot delete category!",
+    });
+  }
+};
+// update category
+const updateCategory = async (req, res) => {
+  try {
+    const {id} = req.params;
+    const { name, description } = req.body;
+    const categoryNew = {
+      name,
+      description,
+    };
+    const category = await CategoryRepository.updateCategory(id, categoryNew);
+    res.status(200).json({
+      message: "Update successfully!",
+      data: category,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: "Cannot update category!",
+    });
+  }
+};
 module.exports = {
   createCategory,
   findAllCategories,
+  deleteCategoryById,
+  updateCategory,
 };
