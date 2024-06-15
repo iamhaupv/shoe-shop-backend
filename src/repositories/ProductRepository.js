@@ -1,6 +1,15 @@
 const { Product, Category } = require("../models/index");
 // add product
-const addProduct = async (name, quantity, category) => {
+const addProduct = async (
+  name,
+  quantity,
+  category,
+  price,
+  description,
+  color,
+  material,
+  design
+) => {
   try {
     const productExist = await Product.findOne({ name });
     if (productExist) {
@@ -14,6 +23,11 @@ const addProduct = async (name, quantity, category) => {
       name,
       quantity,
       category,
+      price,
+      description,
+      color,
+      material,
+      design,
     });
     return product;
   } catch (error) {
@@ -57,7 +71,7 @@ const findAllProduct = async () => {
 // find all product by category
 const findAllProuctByCategory = async (categoryId) => {
   try {
-    const category = await Product.find({category: categoryId });
+    const category = await Product.find({ category: categoryId });
     if (!category || category.length === 0) {
       throw new Error("Category is not exist!");
     }

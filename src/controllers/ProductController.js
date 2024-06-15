@@ -1,11 +1,25 @@
 const { ProductRepository } = require("../repositories/index");
 const addProduct = async (req, res) => {
   try {
-    const { name, quantity, category } = req.body;
+    const {
+      name,
+      quantity,
+      category,
+      price,
+      description,
+      color,
+      material,
+      design,
+    } = req.body;
     const product = await ProductRepository.addProduct(
       name,
       quantity,
-      category
+      category,
+      price,
+      description,
+      color,
+      material,
+      design
     );
     res.status(201).json({
       message: "Add product successfully!",
