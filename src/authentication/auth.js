@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const Auth = (req, res, next) => {
   if (
-    req.url.toLowerCase().trim() == "/users/login".toLowerCase().trim() ||
-    req.url.toLowerCase().trim() == "/users/register".toLowerCase().trim() ||
-    req.url.toLowerCase().trim() == "/wp-admin/login".toLowerCase().trim() ||
-    req.url.toLowerCase().trim() == "/wp-admin/register".toLowerCase().trim()
+    req.url.toLowerCase().trim() == "/api/v1/users/login".toLowerCase().trim() ||
+    req.url.toLowerCase().trim() == "/api/v1/users/register".toLowerCase().trim() ||
+    req.url.toLowerCase().trim() == "/api/v1/wp-admin/login".toLowerCase().trim() ||
+    req.url.toLowerCase().trim() == "/api/v1/wp-admin/register".toLowerCase().trim()
   ) {
     next();
     return;
