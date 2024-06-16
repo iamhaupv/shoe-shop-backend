@@ -38,7 +38,7 @@ router.post(
 // upload images
 router.post(
   "/upload-images",
-  upload.single("image"),
+  upload.single("file"),
   ProductController.uploadImages
 );
 module.exports = router;
