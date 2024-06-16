@@ -26,16 +26,20 @@ const Product = mongoose.model(
       },
       color: {
         type: String,
-        required: false
+        required: false,
       },
       material: {
         type: String,
-        required: false
+        required: false,
       },
       design: {
         type: String,
-        required: false
-      }
+        required: false,
+      },
+      images: {
+        type: [String],
+        required: false,
+      },
     },
     { timestamps: true }
   )
