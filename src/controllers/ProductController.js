@@ -1,3 +1,4 @@
+const { bucketName, s3 } = require("../config/aws.config");
 const { ProductRepository } = require("../repositories/index");
 // create product
 const addProduct = async (req, res) => {
@@ -130,6 +131,40 @@ const findAllProuctByCategory = async (req, res) => {
     });
   }
 };
+// upload images
+const uploadImages = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const image = req.file.originalname.split(".");
+    const fileType = image[image.length - 1];
+    const filePath = `${Date.now().toString()}.${fileType}`; // Bạn có thể thêm studentId nếu cần thiết
+
+    const paramsS3 = {
+      Bucket: bucketName,
+      Key: filePath,
+      Body: req.file.buffer,
+      ContentType: req.file.mimetype,
+    };
+
+    s3.upload(paramsS3, (err, data) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Error uploading image" });
+      }
+      const imageURL = data.Location; // URL của hình ảnh sau khi được upload lên S3
+      res.status(200).json({
+        message: "Image uploaded successfully!",
+        imageURL,
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send("Internal Server Error!");
+  }
+};
 module.exports = {
   addProduct,
   deleteProductById,
@@ -137,4 +172,5 @@ module.exports = {
   findProductById,
   findAllProduct,
   findAllProuctByCategory,
+  uploadImages,
 };

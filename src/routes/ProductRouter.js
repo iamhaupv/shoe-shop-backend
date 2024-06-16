@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { ProductController } = require("../controllers/index");
 const authMiddleware = require("../middleware/authMiddleware");
+const {upload} = require("../config/aws.config")
 // add product
 router.post("/add-product", authMiddleware, ProductController.addProduct);
 // delete product by id
@@ -33,5 +34,11 @@ router.post(
   "/find-product-by-category",
   authMiddleware,
   ProductController.findAllProuctByCategory
+);
+// upload images
+router.post(
+  "/upload-images",
+  upload.single("image"),
+  ProductController.uploadImages
 );
 module.exports = router;
