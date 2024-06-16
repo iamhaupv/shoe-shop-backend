@@ -40,6 +40,27 @@ const Product = mongoose.model(
         type: [String],
         required: false,
       },
+      size: {
+        type: String,
+        enum: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
+        required: true,
+        validate: {
+          validator: function (v) {
+            return [
+              "36",
+              "37",
+              "38",
+              "39",
+              "40",
+              "41",
+              "42",
+              "43",
+              "44",
+            ].includes(v);
+          },
+          message: (props) => `${props.value} is not a valid size!`,
+        },
+      },
     },
     { timestamps: true }
   )
