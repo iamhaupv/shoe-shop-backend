@@ -43,7 +43,7 @@ const Product = mongoose.model(
       size: {
         type: String,
         enum: ["36", "37", "38", "39", "40", "41", "42", "43", "44"],
-        required: true,
+        required: false,
         validate: {
           validator: function (v) {
             return [

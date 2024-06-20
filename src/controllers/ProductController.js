@@ -1,6 +1,65 @@
 const { bucketName, s3 } = require("../config/aws.config");
 const { ProductRepository } = require("../repositories/index");
+
+const path = require('path');
 // create product
+// const addProduct = async (req, res) => {
+//   try {
+//     const {
+//       name,
+//       quantity,
+//       category,
+//       price,
+//       description,
+//       color,
+//       material,
+//       design,
+//     } = req.body;
+//     // upload images
+//     if (!req.file) {
+//       return res.status(400).json({ message: "No file uploaded" });
+//     }
+//     console.log(name, quantity);
+//     const image = req.file.originalname.split(".");
+//     const fileType = image[image.length - 1];
+//     const filePath = `${Date.now().toString()}.${fileType}`; // Bạn có thể thêm studentId nếu cần thiết
+
+//     const paramsS3 = {
+//       Bucket: bucketName,
+//       Key: filePath,
+//       Body: req.file.buffer,
+//       ContentType: req.file.mimetype,
+//     };
+
+//     s3.upload(paramsS3, async (err, data) => {
+//       if (err) {
+//         console.error(err);
+//         return res.status(500).json({ message: "Error uploading image" });
+//       }
+//       const imageURL = data.Location; // URL của hình ảnh sau khi được upload lên S3
+//       const product = await ProductRepository.addProduct(
+//         name,
+//         quantity,
+//         category,
+//         price,
+//         description,
+//         color,
+//         material,
+//         design,
+//         imageURL
+//       );
+//       res.status(201).json({
+//         message: "Add product successfully!",
+//         data: product,
+//       });
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       message: "Cannot add product!",
+//     });
+//   }
+// };
+
 const addProduct = async (req, res) => {
   try {
     const {
@@ -13,6 +72,38 @@ const addProduct = async (req, res) => {
       material,
       design,
     } = req.body;
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: "No files uploaded" });
+    }
+
+    const imageURLs = [];
+
+    // Loop through each file and upload to S3
+    for (const file of req.files) {
+      const fileType = path.extname(file.originalname).toLowerCase();
+      const filePath = `${Date.now().toString()}_${file.originalname}`; // Ensure unique file name
+
+      const paramsS3 = {
+        Bucket: bucketName,
+        Key: filePath,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+      };
+
+      try {
+        const data = await s3.upload(paramsS3).promise();
+        imageURLs.push(data.Location);
+      } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Error uploading images" });
+      }
+    }
+
+    // Log imageURLs to debug
+    console.log('Image URLs:', imageURLs);
+
+    // Add product with image URLs array
     const product = await ProductRepository.addProduct(
       name,
       quantity,
@@ -21,18 +112,23 @@ const addProduct = async (req, res) => {
       description,
       color,
       material,
-      design
+      design,
+      imageURLs // pass the array of image URLs
     );
+
     res.status(201).json({
-      message: "Add product successfully!",
+      message: "Product added successfully!",
       data: product,
     });
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       message: "Cannot add product!",
     });
   }
 };
+
+
 // delete product by id
 const deleteProductById = async (req, res) => {
   try {
@@ -137,7 +233,6 @@ const uploadImages = async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
-
     const image = req.file.originalname.split(".");
     const fileType = image[image.length - 1];
     const filePath = `${Date.now().toString()}.${fileType}`; // Bạn có thể thêm studentId nếu cần thiết

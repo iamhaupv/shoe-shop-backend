@@ -2,9 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { ProductController } = require("../controllers/index");
 const authMiddleware = require("../middleware/authMiddleware");
-const {upload} = require("../config/aws.config")
+const { upload } = require("../config/aws.config");
 // add product
-router.post("/add-product", authMiddleware, ProductController.addProduct);
+router.post(
+  "/add-product",
+  authMiddleware,
+  upload.array("file", 10),
+  ProductController.addProduct
+);
 // delete product by id
 router.delete(
   "/delete-product-by-id/:_id",
@@ -38,7 +43,7 @@ router.post(
 // upload images
 router.post(
   "/upload-images",
-  upload.single("file"),
+  upload.array("file", 10),
   ProductController.uploadImages
 );
 module.exports = router;

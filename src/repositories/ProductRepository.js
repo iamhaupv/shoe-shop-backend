@@ -1,4 +1,4 @@
-const { Product, Category } = require("../models/index");
+const { Product } = require("../models/index");
 // add product
 const addProduct = async (
   name,
@@ -8,31 +8,21 @@ const addProduct = async (
   description,
   color,
   material,
-  design
+  design,
+  imageUrls
 ) => {
-  try {
-    const productExist = await Product.findOne({ name });
-    if (productExist) {
-      throw new Error("Product is Exist!");
-    }
-    const checkCategory = await Category.findOne({ category });
-    if (!checkCategory) {
-      throw new Error("Category is not exist!");
-    }
-    const product = await Product.create({
-      name,
-      quantity,
-      category,
-      price,
-      description,
-      color,
-      material,
-      design,
-    });
-    return product;
-  } catch (error) {
-    throw new Error(error);
-  }
+  const product = new Product({
+    name,
+    quantity,
+    category,
+    price,
+    description,
+    color,
+    material,
+    design,
+    images: imageUrls,
+  });
+  return await product.save();
 };
 // delete product by _id
 const deleteProductById = async (_id) => {
