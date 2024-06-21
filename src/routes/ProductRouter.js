@@ -7,7 +7,7 @@ const { upload } = require("../config/aws.config");
 router.post(
   "/add-product",
   authMiddleware,
-  upload.array("file", 10),
+  upload.array("images", 10),
   ProductController.addProduct
 );
 // delete product by id

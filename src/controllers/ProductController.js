@@ -3,63 +3,6 @@ const { ProductRepository } = require("../repositories/index");
 
 const path = require('path');
 // create product
-// const addProduct = async (req, res) => {
-//   try {
-//     const {
-//       name,
-//       quantity,
-//       category,
-//       price,
-//       description,
-//       color,
-//       material,
-//       design,
-//     } = req.body;
-//     // upload images
-//     if (!req.file) {
-//       return res.status(400).json({ message: "No file uploaded" });
-//     }
-//     console.log(name, quantity);
-//     const image = req.file.originalname.split(".");
-//     const fileType = image[image.length - 1];
-//     const filePath = `${Date.now().toString()}.${fileType}`; // Bạn có thể thêm studentId nếu cần thiết
-
-//     const paramsS3 = {
-//       Bucket: bucketName,
-//       Key: filePath,
-//       Body: req.file.buffer,
-//       ContentType: req.file.mimetype,
-//     };
-
-//     s3.upload(paramsS3, async (err, data) => {
-//       if (err) {
-//         console.error(err);
-//         return res.status(500).json({ message: "Error uploading image" });
-//       }
-//       const imageURL = data.Location; // URL của hình ảnh sau khi được upload lên S3
-//       const product = await ProductRepository.addProduct(
-//         name,
-//         quantity,
-//         category,
-//         price,
-//         description,
-//         color,
-//         material,
-//         design,
-//         imageURL
-//       );
-//       res.status(201).json({
-//         message: "Add product successfully!",
-//         data: product,
-//       });
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       message: "Cannot add product!",
-//     });
-//   }
-// };
-
 const addProduct = async (req, res) => {
   try {
     const {
@@ -71,6 +14,7 @@ const addProduct = async (req, res) => {
       color,
       material,
       design,
+      size
     } = req.body;
 
     if (!req.files || req.files.length === 0) {
@@ -113,6 +57,7 @@ const addProduct = async (req, res) => {
       color,
       material,
       design,
+      size,
       imageURLs // pass the array of image URLs
     );
 
@@ -127,7 +72,6 @@ const addProduct = async (req, res) => {
     });
   }
 };
-
 
 // delete product by id
 const deleteProductById = async (req, res) => {
