@@ -101,8 +101,48 @@ const updateProduct = async (req, res) => {
       color,
       material,
       design,
+      size,
     } = req.body;
-    const productNew = {
+
+    let imageURLs = []; // Array to hold updated image URLs
+
+    // Check if there are new files (images) in the request
+    if (req.files && req.files.length > 0) {
+      // Upload new images to S3
+      for (const file of req.files) {
+        const fileType = path.extname(file.originalname).toLowerCase();
+        const filePath = `${Date.now().toString()}_${file.originalname}`; // Ensure unique file name
+
+        const paramsS3 = {
+          Bucket: bucketName,
+          Key: filePath,
+          Body: file.buffer,
+          ContentType: file.mimetype,
+        };
+
+        try {
+          const data = await s3.upload(paramsS3).promise();
+          imageURLs.push(data.Location);
+        } catch (err) {
+          console.error(err);
+          return res.status(500).json({ message: "Error uploading images" });
+        }
+      }
+    }
+
+    // Retrieve current product to determine existing image URLs
+    const existingProduct = await ProductRepository.findProductById(_id);
+    const existingImageURLs = existingProduct.imageURLs || [];
+
+    // Logic to handle removed images (if applicable)
+    // Example: You may want to compare existingImageURLs with req.body.removedImages
+    // and filter out removed images from imageURLs
+    if (req.body.removedImages && req.body.removedImages.length > 0) {
+      imageURLs = imageURLs.filter(url => !req.body.removedImages.includes(url));
+    }
+
+    // Update the product details in the database
+    const productUpdate = {
       name,
       quantity,
       category,
@@ -111,19 +151,26 @@ const updateProduct = async (req, res) => {
       color,
       material,
       design,
+      size,
+      imageURLs, // Include updated image URLs
     };
-    const product = await ProductRepository.updateProduct(_id, productNew);
+
+    // Call ProductRepository method to update the product
+    const updatedProduct = await ProductRepository.updateProduct(_id, productUpdate);
+
     res.status(200).json({
-      message: "Update product successfully!",
-      data: product,
+      message: "Product updated successfully!",
+      data: updatedProduct,
     });
   } catch (error) {
+    console.error("Error updating product:", error);
     res.status(500).json({
       message: "Cannot update product!",
       error: error.message,
     });
   }
 };
+
 // find product by id
 const findProductById = async (req, res) => {
   try {

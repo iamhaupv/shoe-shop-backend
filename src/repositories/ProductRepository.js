@@ -50,6 +50,8 @@ const updateProduct = async (_id, productNew) => {
     productOld.color = productNew.color;
     productOld.material = productNew.material;
     productOld.design = productNew.design;
+    productOld.size = productNew.size;
+    productOld.images = productNew.images
     return productOld.save();
   } catch (error) {
     throw new Error(error.message);
