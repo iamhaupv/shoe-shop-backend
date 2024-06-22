@@ -91,7 +91,9 @@ const deleteProductById = async (req, res) => {
 // update product by _id
 const updateProduct = async (req, res) => {
   try {
-    const { _id } = req.params;
+    const { _id } = req.params; // Lấy id sản phẩm cần cập nhật
+
+    // Lấy thông tin sản phẩm từ body của request
     const {
       name,
       quantity,
@@ -102,46 +104,85 @@ const updateProduct = async (req, res) => {
       material,
       design,
       size,
+      images = [] // Danh sách các URL của product, mặc định là mảng rỗng
     } = req.body;
 
-    let imageURLs = []; // Array to hold updated image URLs
+    let newImageURLs = []; // Mảng chứa các URL hình ảnh mới tải lên
 
-    // Check if there are new files (images) in the request
+    // Kiểm tra xem trong request có chứa file hình ảnh mới không
     if (req.files && req.files.length > 0) {
       // Upload new images to S3
       for (const file of req.files) {
-        const fileType = path.extname(file.originalname).toLowerCase();
-        const filePath = `${Date.now().toString()}_${file.originalname}`; // Ensure unique file name
+        const fileType = path.extname(file.originalname).toLowerCase(); // Lấy loại file (ví dụ: .jpg, .png)
+        const filePath = `${Date.now().toString()}_${file.originalname}`; // Tạo tên file đảm bảo duy nhất
 
+        // Tham số để tải lên file lên Amazon S3
         const paramsS3 = {
-          Bucket: bucketName,
-          Key: filePath,
-          Body: file.buffer,
-          ContentType: file.mimetype,
+          Bucket: bucketName, // Tên bucket S3
+          Key: filePath, // Đường dẫn file trên S3
+          Body: file.buffer, // Dữ liệu của file
+          ContentType: file.mimetype, // Kiểu dữ liệu của file
         };
 
+        // Thực hiện tải lên file lên S3
         try {
-          const data = await s3.upload(paramsS3).promise();
-          imageURLs.push(data.Location);
+          const data = await s3.upload(paramsS3).promise(); // Tải lên và nhận dữ liệu trả về từ S3
+          newImageURLs.push(data.Location); // Lưu trữ URL hình ảnh vào mảng imageURLs
         } catch (err) {
-          console.error(err);
-          return res.status(500).json({ message: "Error uploading images" });
+          console.error(err); // Xử lý lỗi nếu có
+          return res.status(500).json({ message: "Error uploading images" }); // Trả về lỗi nếu tải lên không thành công
         }
       }
     }
 
-    // Retrieve current product to determine existing image URLs
+    // Lấy thông tin sản phẩm hiện tại từ cơ sở dữ liệu để lấy danh sách các URL hình ảnh cũ
     const existingProduct = await ProductRepository.findProductById(_id);
-    const existingImageURLs = existingProduct.imageURLs || [];
-
-    // Logic to handle removed images (if applicable)
-    // Example: You may want to compare existingImageURLs with req.body.removedImages
-    // and filter out removed images from imageURLs
-    if (req.body.removedImages && req.body.removedImages.length > 0) {
-      imageURLs = imageURLs.filter(url => !req.body.removedImages.includes(url));
+    if (!existingProduct) {
+      return res.status(404).json({ message: "Product not found" });
     }
 
-    // Update the product details in the database
+    const existingImageURLs = existingProduct.images || [];
+
+    // Tạo mảng để lưu các URL hình ảnh sau khi cập nhật
+    let updatedImageURLs;
+
+    if (newImageURLs.length > 0) {
+      // Nếu có ảnh mới, xóa tất cả ảnh cũ và chỉ sử dụng ảnh mới
+      for (const existingImageUrl of existingImageURLs) {
+        try {
+          const key = existingImageUrl.split("/").pop(); // Lấy tên file từ URL
+          const paramsS3 = {
+            Bucket: bucketName, // Tên bucket S3
+            Key: key, // Tên file trên S3
+          };
+          await s3.deleteObject(paramsS3).promise(); // Xóa file trên S3
+        } catch (err) {
+          console.error("Error deleting image from S3:", err);
+          // Xử lý lỗi xóa file nếu có
+        }
+      }
+      updatedImageURLs = newImageURLs;
+    } else {
+      // Nếu không có ảnh mới, chỉ giữ lại ảnh có trong danh sách images, xóa các ảnh cũ không có trong danh sách này
+      for (const existingImageUrl of existingImageURLs) {
+        if (!images.includes(existingImageUrl)) {
+          try {
+            const key = existingImageUrl.split("/").pop(); // Lấy tên file từ URL
+            const paramsS3 = {
+              Bucket: bucketName, // Tên bucket S3
+              Key: key, // Tên file trên S3
+            };
+            await s3.deleteObject(paramsS3).promise(); // Xóa file trên S3
+          } catch (err) {
+            console.error("Error deleting image from S3:", err);
+            // Xử lý lỗi xóa file nếu có
+          }
+        }
+      }
+      updatedImageURLs = images;
+    }
+
+    // Tạo đối tượng cập nhật thông tin sản phẩm
     const productUpdate = {
       name,
       quantity,
@@ -152,24 +193,27 @@ const updateProduct = async (req, res) => {
       material,
       design,
       size,
-      imageURLs, // Include updated image URLs
+      images: updatedImageURLs, // Cập nhật danh sách hình ảnh mới
     };
 
-    // Call ProductRepository method to update the product
-    const updatedProduct = await ProductRepository.updateProduct(_id, productUpdate);
+    // Gọi hàm cập nhật sản phẩm từ ProductRepository
+    const updatedProduct = await ProductRepository.updateProduct(_id, productUpdate, { new: true });
 
+    // Trả về thông báo thành công và dữ liệu sản phẩm đã cập nhật
     res.status(200).json({
       message: "Product updated successfully!",
       data: updatedProduct,
     });
   } catch (error) {
-    console.error("Error updating product:", error);
+    console.error("Error updating product:", error); // Log lỗi nếu có
     res.status(500).json({
-      message: "Cannot update product!",
+      message: "Cannot update product!", // Trả về thông báo lỗi nếu không thể cập nhật sản phẩm
       error: error.message,
     });
   }
 };
+
+
 
 // find product by id
 const findProductById = async (req, res) => {

@@ -39,24 +39,35 @@ const deleteProductById = async (_id) => {
 const updateProduct = async (_id, productNew) => {
   try {
     const productOld = await Product.findOne({ _id });
+
     if (!productOld) {
       throw new Error("Not found product!");
     }
+
     productOld.name = productNew.name;
     productOld.quantity = productNew.quantity;
-    productOld.category = productNew.Category;
+    productOld.category = productNew.category;
     productOld.price = productNew.price;
     productOld.description = productNew.description;
     productOld.color = productNew.color;
     productOld.material = productNew.material;
     productOld.design = productNew.design;
     productOld.size = productNew.size;
-    productOld.images = productNew.images
-    return productOld.save();
+    productOld.images = productNew.images;
+
+    const updatedProduct = await productOld.save();
+
+    // Return full product information
+    const fullProduct = {
+      ...updatedProduct.toObject(), // Convert Mongoose document to plain JS object
+    };
+
+    return fullProduct;
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
 // find product by _id
 const findProductById = async (_id) => {
   const product = Product.findOne({ _id });

@@ -20,6 +20,7 @@ router.delete(
 router.patch(
   `/update-product/:_id`,
   authMiddleware,
+  upload.array("images", 10),
   ProductController.updateProduct
 );
 // find product by id
