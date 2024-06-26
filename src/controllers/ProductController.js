@@ -72,7 +72,6 @@ const addProduct = async (req, res) => {
     });
   }
 };
-
 // delete product by id
 const deleteProductById = async (req, res) => {
   try {
@@ -212,9 +211,6 @@ const updateProduct = async (req, res) => {
     });
   }
 };
-
-
-
 // find product by id
 const findProductById = async (req, res) => {
   try {

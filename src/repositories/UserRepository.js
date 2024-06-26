@@ -53,7 +53,18 @@ const login = async (phoneNumber, password) => {
     throw new Error(error);
   }
 };
+// check user exist
+const checkUserExist = async (phoneNumber) => {
+  try {
+    const user = await User.findOne({ phoneNumber: phoneNumber });
+    if (user) return false;
+    return true;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 module.exports = {
   register,
   login,
+  checkUserExist,
 };
