@@ -34,22 +34,23 @@ const login = async (req, res) => {
 const checkUserExist = async (req, res) => {
   try {
     const { phoneNumber } = req.body;
-    const user =  await UserRepository.checkUserExist(phoneNumber);
-    if(user){
+    const user = await UserRepository.checkUserExist(phoneNumber);
+    if (user) {
       res.status(200).json({
-        message: "Success",
+        message: "User exists",
       });
-    }else{
-      res.status(200).json({
-        message: "Error",
+    } else {
+      res.status(404).json({
+        message: "User does not exist",
       });
     }
   } catch (error) {
     res.status(500).json({
-      message: "User is exist!",
+      message: "An error occurred while checking user existence",
     });
   }
 };
+
 module.exports = {
   register,
   login,

@@ -57,8 +57,7 @@ const login = async (phoneNumber, password) => {
 const checkUserExist = async (phoneNumber) => {
   try {
     const user = await User.findOne({ phoneNumber: phoneNumber });
-    if (user) return false;
-    return true;
+    return !user;
   } catch (error) {
     throw new Error(error);
   }
