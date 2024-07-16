@@ -6,7 +6,8 @@ const Auth = (req, res, next) => {
     req.url.toLowerCase().trim() == "/api/v1/wp-admin/login".toLowerCase().trim() ||
     req.url.toLowerCase().trim() == "/api/v1/wp-admin/register".toLowerCase().trim() ||
     req.url.toLowerCase().trim() == "/api/v1/users/check-user-exist".toLowerCase().trim() ||
-    req.url.toLowerCase().trim() == "/api/v1/products/find-all-product".toLowerCase().trim() 
+    req.url.toLowerCase().trim() == "/api/v1/products/find-all-product".toLowerCase().trim() ||
+    req.url.toLowerCase().trim() == "/api/v1/products/find-all-product-flash-sale".toLowerCase().trim() 
   ) {
     next();
     return;

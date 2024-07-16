@@ -293,6 +293,20 @@ const uploadImages = async (req, res) => {
     return res.status(500).send("Internal Server Error!");
   }
 };
+// find all product flash sale
+const findAllProductFlashSale = async (req, res) => {
+  try {
+    const product = await ProductRepository.findAllProductFlashSale()
+    res.status(200).json({
+      message: "Successfully",
+      data: product
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error
+    })
+  }
+}
 module.exports = {
   addProduct,
   deleteProductById,
@@ -301,4 +315,5 @@ module.exports = {
   findAllProduct,
   findAllProuctByCategory,
   uploadImages,
+  findAllProductFlashSale
 };

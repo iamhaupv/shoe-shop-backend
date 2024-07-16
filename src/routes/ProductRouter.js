@@ -30,10 +30,7 @@ router.post(
   ProductController.findProductById
 );
 // find all product
-router.get(
-  "/find-all-product",
-  ProductController.findAllProduct
-);
+router.get("/find-all-product", ProductController.findAllProduct);
 // find product by category
 router.post(
   "/find-product-by-category",
@@ -45,5 +42,9 @@ router.post(
   "/upload-images",
   upload.array("file", 10),
   ProductController.uploadImages
+);
+router.get(
+  "/find-all-product-flash-sale",
+  ProductController.findAllProductFlashSale
 );
 module.exports = router;
