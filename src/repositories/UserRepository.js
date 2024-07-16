@@ -57,10 +57,19 @@ const login = async (phoneNumber, password) => {
 const checkUserExist = async (phoneNumber) => {
   try {
     if (!phoneNumber) {
-      throw new Error('Phone not isEmpty!');
+      throw new Error("Phone not isEmpty!");
     }
     const user = await User.findOne({ phoneNumber: phoneNumber });
     return user ? user : null;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+// find user by id
+const findUserByPhone = async (phone) => {
+  try {
+    const user = await User.findOne({ phoneNumber: phone });
+    return user;
   } catch (error) {
     throw new Error(error);
   }
@@ -69,4 +78,5 @@ module.exports = {
   register,
   login,
   checkUserExist,
+  findUserByPhone,
 };

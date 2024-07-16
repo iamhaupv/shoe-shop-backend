@@ -56,9 +56,24 @@ const checkUserExist = async (req, res) => {
     });
   }
 };
-
+// find user by phone
+const findUserByPhone = async (req, res) => {
+  try {
+    const {phoneNumber} = req.body;
+    const user = await UserRepository.findUserByPhone(phoneNumber);
+    res.status(200).json({
+      message: "Success",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error,
+    });
+  }
+};
 module.exports = {
   register,
   login,
   checkUserExist,
+  findUserByPhone
 };
