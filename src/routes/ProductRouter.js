@@ -30,9 +30,8 @@ router.post(
   ProductController.findProductById
 );
 // find all product
-router.post(
+router.get(
   "/find-all-product",
-  authMiddleware,
   ProductController.findAllProduct
 );
 // find product by category

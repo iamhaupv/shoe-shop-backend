@@ -10,7 +10,8 @@ const addProduct = async (
   material,
   design,
   size,
-  imageURLs
+  imageURLs,
+  flashSale
 ) => {
   const product = new Product({
     name,
@@ -23,6 +24,7 @@ const addProduct = async (
     design,
     size,
     images: imageURLs,
+    flashSale
   });
   return await product.save();
 };

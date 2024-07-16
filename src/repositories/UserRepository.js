@@ -56,8 +56,11 @@ const login = async (phoneNumber, password) => {
 // check user exist
 const checkUserExist = async (phoneNumber) => {
   try {
+    if (!phoneNumber) {
+      throw new Error('Phone not isEmpty!');
+    }
     const user = await User.findOne({ phoneNumber: phoneNumber });
-    return !user;
+    return user ? user : null;
   } catch (error) {
     throw new Error(error);
   }

@@ -14,7 +14,8 @@ const addProduct = async (req, res) => {
       color,
       material,
       design,
-      size
+      size,
+      flashSale
     } = req.body;
 
     if (!req.files || req.files.length === 0) {
@@ -58,7 +59,8 @@ const addProduct = async (req, res) => {
       material,
       design,
       size,
-      imageURLs // pass the array of image URLs
+      imageURLs, // pass the array of image URLs
+      flashSale
     );
 
     res.status(201).json({
