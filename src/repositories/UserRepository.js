@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 // register
 const register = async (phoneNumber, password) => {
   try {
+    const avt = 'https://shoe-shop-images.s3.ap-southeast-1.amazonaws.com/avt.jpg'
     const updateAt = null;
     const userExist = await User.findOne({ phoneNumber });
     if (userExist) {
@@ -18,6 +19,7 @@ const register = async (phoneNumber, password) => {
       phoneNumber,
       password: hashPassword,
       updateAt,
+      avt
     });
     const cart = await Cart.create({
       user: newUser._id,

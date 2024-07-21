@@ -16,4 +16,10 @@ router.post(
   authMiddleware,
   CartController.removeProductFromCart
 );
+// find all product from cart
+router.post(
+  "/find-all-product-from-cart",
+  authMiddleware,
+  CartController.findAllProductFromCart
+);
 module.exports = router;

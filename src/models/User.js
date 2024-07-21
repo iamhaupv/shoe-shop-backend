@@ -34,6 +34,9 @@ const User = mongoose.model(
       type: mongoose.ObjectId,
       ref: "Cart",
     },
+    avatar: {
+      type: String
+    }
   })
 );
 

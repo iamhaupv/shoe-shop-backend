@@ -106,9 +106,18 @@ const removeProductFromCart = async (phoneNumber, productId) => {
     throw new Error(error.message);
   }
 };
-
+//  find all product from cart
+const findAllProductFromCart = async(_id) => {
+  try {
+    const cart = await Cart.findOne({_id}).populate('products.product');
+    return cart;
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 module.exports = {
   addProductToCart,
   findCartById,
   removeProductFromCart,
+  findAllProductFromCart
 };

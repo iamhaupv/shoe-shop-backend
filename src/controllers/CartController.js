@@ -47,8 +47,23 @@ const removeProductFromCart = async (req, res) => {
     });
   }
 };
+// find all product from cart
+const findAllProductFromCart = async(req, res) => {
+  try {
+    const {cartId} = req.body
+    const cart = await CartRepository.findAllProductFromCart(cartId);
+    res.status(200).json({
+      data: cart
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error
+    })
+  }
+}
 module.exports = {
   addProductToCart,
   findCartById,
   removeProductFromCart,
+  findAllProductFromCart
 };

@@ -92,15 +92,15 @@ const findAllProuctByCategory = async (categoryId) => {
     throw new Error(error);
   }
 };
-// find all product flashSale 
-const findAllProductFlashSale = async() => {
+// find all product flashSale
+const findAllProductFlashSale = async () => {
   try {
-    const product = await Product.find({flashSale: true})
+    const product = await Product.find({ flashSale: true });
     return product;
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
-}
+};
 module.exports = {
   addProduct,
   deleteProductById,
@@ -108,5 +108,5 @@ module.exports = {
   findProductById,
   findAllProduct,
   findAllProuctByCategory,
-  findAllProductFlashSale
+  findAllProductFlashSale,
 };
