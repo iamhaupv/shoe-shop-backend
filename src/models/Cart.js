@@ -24,13 +24,13 @@ const Cart = mongoose.model(
           type: Number,
           default: 1,
         },
+        statusDetail: {
+          type: Boolean,
+          require: true,
+          default: false,
+        },
       },
     ],
-    statusDetail: {
-      type: Boolean,
-      require: true,
-      default: false
-    }
   })
 );
 
