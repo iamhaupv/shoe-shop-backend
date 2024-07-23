@@ -40,7 +40,11 @@ const addProductToCart = async (phoneNumber, productId) => {
         cart.products[productIndex].quantity += 1;
       } else {
         // Nếu sản phẩm chưa tồn tại, thêm mới vào giỏ hàng với quantity là 1
-        cart.products.push({ product: productId, name: product.name, quantity: 1 });
+        cart.products.push({
+          product: productId,
+          name: product.name,
+          quantity: 1,
+        });
       }
 
       await cart.save();
@@ -107,17 +111,37 @@ const removeProductFromCart = async (phoneNumber, productId) => {
   }
 };
 //  find all product from cart
-const findAllProductFromCart = async(_id) => {
+const findAllProductFromCart = async (_id) => {
   try {
-    const cart = await Cart.findOne({_id}).populate('products.product');
+    const cart = await Cart.findOne({ _id }).populate("products.product");
     return cart;
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
-}
+};
+// update statusDetail
+// const updateStatusDetail = async (_id, productId) => {
+//   try {
+//     const cart = await Cart.findOne({ _id });
+//     if (!cart) {
+//       throw new Error("Cart is not exist!");
+//     }
+//     console.log("b");
+//     const product = await cart.products.find((pro) =>
+//       pro._id.equals(productId)
+//     );
+//     if (!product) {
+//       throw new Error("Product not found in cart!");
+//     }
+//     return product;
+//   } catch (error) {
+//     throw new Error(error);
+//   }
+// };
 module.exports = {
   addProductToCart,
   findCartById,
   removeProductFromCart,
-  findAllProductFromCart
+  findAllProductFromCart,
+  // updateStatusDetail,
 };

@@ -42,7 +42,31 @@ const ProductSchema = new mongoose.Schema(
     ,
     flashSale: {
       type: Boolean,
-      require: true
+      require: true,
+      default: false
+    },
+    freeShip: {
+      type: Boolean,
+      require: true,
+      default: false
+    },
+    shopMall: {
+      type: Boolean,
+      require: true,
+      default: false
+    },
+    loveLy: {
+      type: Boolean,
+      require: true,
+      default: false
+    },
+    isDiscount:{
+      type: Boolean,
+      require: true,
+      default: false
+    },
+    discount: {
+      type: Number,
     }
     ,
     size: {

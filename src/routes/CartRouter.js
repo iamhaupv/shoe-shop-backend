@@ -22,4 +22,6 @@ router.post(
   authMiddleware,
   CartController.findAllProductFromCart
 );
+// update statusDetail
+// router.post("/update-status-detail", authMiddleware, CartController.updateStatusDetail)
 module.exports = router;

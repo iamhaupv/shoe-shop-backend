@@ -47,6 +47,7 @@ const removeProductFromCart = async (req, res) => {
     });
   }
 };
+
 // find all product from cart
 const findAllProductFromCart = async(req, res) => {
   try {
@@ -61,9 +62,25 @@ const findAllProductFromCart = async(req, res) => {
     })
   }
 }
+// update statusDetail
+// const updateStatusDetail = async(req, res) => {
+//   try {
+//     const {cartId, productId} = req.body
+//     const cart = await CartRepository.updateStatusDetail(cartId, productId)
+//     res.status(200).json({
+//       message: "Update successfully",
+//       data: cart
+//     })
+//   } catch (error) {
+//     res.status(500).json({
+//       message: error
+//     })
+//   }
+// }
 module.exports = {
   addProductToCart,
   findCartById,
   removeProductFromCart,
-  findAllProductFromCart
+  findAllProductFromCart,
+  // updateStatusDetail
 };
