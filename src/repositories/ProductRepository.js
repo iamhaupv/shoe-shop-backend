@@ -128,6 +128,15 @@ const findAllProductShopMall = async () => {
     throw new Error(error)
   }
 }
+// find all product love and discount
+const findAllProductLoveAndDiscount = async () => {
+  try {
+    const products = Product.find({loveLy: true, isDiscount: true})
+    return products
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 module.exports = {
   addProduct,
   deleteProductById,
@@ -138,5 +147,6 @@ module.exports = {
   findAllProductFlashSale,
   findAllProductFreeShip,
   findAllProductIsDiscount,
-  findAllProductShopMall
+  findAllProductShopMall,
+  findAllProductLoveAndDiscount
 };

@@ -349,6 +349,20 @@ const findAllProductShopMall = async (req, res) => {
     })
   }
 }
+// find all product love and discount
+const findAllProductLoveAndDiscount = async (req, res) => {
+  try {
+    const products = await ProductRepository.findAllProductLoveAndDiscount()
+    res.status(200).json({
+      message: "Successfully!",
+      data: products
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error
+    })
+  }
+}
 module.exports = {
   addProduct,
   deleteProductById,
@@ -360,5 +374,6 @@ module.exports = {
   findAllProductFlashSale,
   findAllProductFreeShip,
   findAllProductIsDiscount,
-  findAllProductShopMall
+  findAllProductShopMall,
+  findAllProductLoveAndDiscount
 };
