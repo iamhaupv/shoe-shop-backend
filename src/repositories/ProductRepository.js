@@ -101,6 +101,33 @@ const findAllProductFlashSale = async () => {
     throw new Error(error);
   }
 };
+// find all product free ship
+const findAllProductFreeShip = async() => {
+  try {
+    const product = await Product.find({freeShip: true})
+    return product;
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// find all product is discount 
+const findAllProductIsDiscount = async() => {
+  try {
+    const product = await Product.find({isDiscount: true})
+    return product;
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+// find all product shop mall
+const findAllProductShopMall = async () => {
+  try {
+    const product = await Product.find({shopMall: true})
+    return product;
+  } catch (error) {
+    throw new Error(error)
+  }
+}
 module.exports = {
   addProduct,
   deleteProductById,
@@ -109,4 +136,7 @@ module.exports = {
   findAllProduct,
   findAllProuctByCategory,
   findAllProductFlashSale,
+  findAllProductFreeShip,
+  findAllProductIsDiscount,
+  findAllProductShopMall
 };

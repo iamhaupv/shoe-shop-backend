@@ -307,6 +307,48 @@ const findAllProductFlashSale = async (req, res) => {
     })
   }
 }
+// find all product free ship
+const findAllProductFreeShip = async (req, res) => {
+  try {
+    const product = await ProductRepository.findAllProductFreeShip()
+    res.status(200).json({
+      message: "Successfully",
+      data: product
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error
+    })
+  }
+}
+// find all product is discount
+const findAllProductIsDiscount = async(req, res) => {
+  try {
+    const product = await ProductRepository.findAllProductIsDiscount()
+    res.status(200).json({
+      message: "Successfully",
+      data: product
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error
+    })
+  }
+}
+// find all product shop mall
+const findAllProductShopMall = async (req, res) => {
+  try {
+    const product = await ProductRepository.findAllProductShopMall()
+    res.status(200).json({
+      message: "Successfully",
+      data: product
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error
+    })
+  }
+}
 module.exports = {
   addProduct,
   deleteProductById,
@@ -315,5 +357,8 @@ module.exports = {
   findAllProduct,
   findAllProuctByCategory,
   uploadImages,
-  findAllProductFlashSale
+  findAllProductFlashSale,
+  findAllProductFreeShip,
+  findAllProductIsDiscount,
+  findAllProductShopMall
 };

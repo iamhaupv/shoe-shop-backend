@@ -43,8 +43,15 @@ router.post(
   upload.array("file", 10),
   ProductController.uploadImages
 );
+// find all product flash sale
 router.get(
   "/find-all-product-flash-sale",
   ProductController.findAllProductFlashSale
 );
+// find all product free ship
+router.get("/find-all-product-free-ship", ProductController.findAllProductFreeShip)
+// find all product is discount
+router.get("/find-all-product-is-discount", ProductController.findAllProductIsDiscount)
+// find all product shop mall
+router.get("/find-all-product-shop-mall", ProductController.findAllProductShopMall)
 module.exports = router;
