@@ -363,6 +363,34 @@ const findAllProductLoveAndDiscount = async (req, res) => {
     })
   }
 }
+// find all product mall and discount
+const findAllProductMallAndDiscount = async(req, res) => {
+  try {
+    const products = await ProductRepository.findAllProductMallAndDiscount()
+    res.status(200).json({
+      message: "Successfully",
+      data: products
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error
+    })
+  }
+}
+// find all product love discount free ship
+const findAllProductLoveDiscountFreeShip = async (req, res) => {
+  try {
+    const products = await ProductRepository.findAllProductLoveDiscountFreeShip()
+    res.status(200).json({
+      message: "Successfully!",
+      data: products
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error
+    })
+  }
+}
 module.exports = {
   addProduct,
   deleteProductById,
@@ -375,5 +403,7 @@ module.exports = {
   findAllProductFreeShip,
   findAllProductIsDiscount,
   findAllProductShopMall,
-  findAllProductLoveAndDiscount
+  findAllProductLoveAndDiscount,
+  findAllProductMallAndDiscount,
+  findAllProductLoveDiscountFreeShip
 };

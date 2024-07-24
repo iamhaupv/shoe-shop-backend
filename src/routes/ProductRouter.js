@@ -56,4 +56,8 @@ router.get("/find-all-product-is-discount", ProductController.findAllProductIsDi
 router.get("/find-all-product-shop-mall", ProductController.findAllProductShopMall)
 // find all product love and discount
 router.get("/find-all-product-love-and-discount", ProductController.findAllProductLoveAndDiscount)
+// find all product mall and discount
+router.get("/find-all-product-mall-and-discount", ProductController.findAllProductMallAndDiscount)
+// find all product love dicount free ship
+router.get("/find-all-product-love-discount-free-ship", ProductController.findAllProductLoveDiscountFreeShip)
 module.exports = router;

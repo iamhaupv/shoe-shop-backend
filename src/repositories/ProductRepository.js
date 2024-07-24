@@ -102,41 +102,63 @@ const findAllProductFlashSale = async () => {
   }
 };
 // find all product free ship
-const findAllProductFreeShip = async() => {
+const findAllProductFreeShip = async () => {
   try {
-    const product = await Product.find({freeShip: true})
+    const product = await Product.find({ freeShip: true });
     return product;
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
-}
-// find all product is discount 
-const findAllProductIsDiscount = async() => {
+};
+// find all product is discount
+const findAllProductIsDiscount = async () => {
   try {
-    const product = await Product.find({isDiscount: true})
+    const product = await Product.find({ isDiscount: true });
     return product;
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
-}
+};
 // find all product shop mall
 const findAllProductShopMall = async () => {
   try {
-    const product = await Product.find({shopMall: true})
+    const product = await Product.find({ shopMall: true });
     return product;
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
-}
+};
 // find all product love and discount
 const findAllProductLoveAndDiscount = async () => {
   try {
-    const products = Product.find({loveLy: true, isDiscount: true})
-    return products
+    const products = await Product.find({ loveLy: true, isDiscount: true });
+    return products;
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
-}
+};
+// find all product mall and discount
+const findAllProductMallAndDiscount = async () => {
+  try {
+    const products = await Product.find({ shopMall: true, isDiscount: true });
+    return products;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+// find all product love discount free ship
+const findAllProductLoveDiscountFreeShip = async () => {
+  try {
+    const products = await Product.find({
+      loveLy: true,
+      isDiscount: true,
+      freeShip: true,
+    });
+    return products;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
 module.exports = {
   addProduct,
   deleteProductById,
@@ -148,5 +170,7 @@ module.exports = {
   findAllProductFreeShip,
   findAllProductIsDiscount,
   findAllProductShopMall,
-  findAllProductLoveAndDiscount
+  findAllProductLoveAndDiscount,
+  findAllProductMallAndDiscount,
+  findAllProductLoveDiscountFreeShip,
 };

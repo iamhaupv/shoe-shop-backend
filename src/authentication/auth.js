@@ -22,7 +22,11 @@ const Auth = (req, res, next) => {
     req.url.toLowerCase().trim() ==
       "/api/v1/products/find-all-product-shop-mall".toLowerCase().trim() ||
       req.url.toLowerCase().trim() ==
-      "/api/v1/products/find-all-product-love-and-discount".toLowerCase().trim()
+      "/api/v1/products/find-all-product-love-and-discount".toLowerCase().trim() ||
+      req.url.toLowerCase().trim() ==
+      "/api/v1/products/find-all-product-mall-and-discount".toLowerCase().trim() ||
+      req.url.toLowerCase().trim() ==
+      "/api/v1/products/find-all-product-love-discount-free-ship".toLowerCase().trim()
   ) {
     next();
     return;
